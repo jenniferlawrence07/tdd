@@ -30,5 +30,51 @@ class TestGetColumnIndex(unittest.TestCase):
         self.assertIsNone(result)
 
 
+class TestGetData(unittest.TestCase):
+
+    def test_get_all_rows(self):
+        file_name = os.path.join(
+            os.path.dirname(__file__),
+            "../data/test_co2.csv"
+        )
+
+        rows = fire_gdp.get_data(file_name)
+
+        self.assertEqual(len(rows), 4)
+        self.assertEqual(rows[0], ["Brazil", "2004", "14437.5351"])
+
+    def test_query_rows(self):
+        file_name = os.path.join(
+            os.path.dirname(__file__),
+            "../data/test_co2.csv"
+        )
+
+        rows = fire_gdp.get_data(
+            file_name,
+            query_column=0,
+            query_value="Brazil"
+        )
+
+        self.assertEqual(len(rows), 3)
+        self.assertEqual(rows[0][0], "Brazil")
+
+    def test_return_header(self):
+        file_name = os.path.join(
+            os.path.dirname(__file__),
+            "../data/test_co2.csv"
+        )
+
+        header, rows = fire_gdp.get_data(
+            file_name,
+            return_header=True
+        )
+
+        self.assertEqual(
+            header,
+            ["Area", "Year", "Forest fires"]
+        )
+        self.assertEqual(len(rows), 4)
+
+
 if __name__ == "__main__":
     unittest.main()
