@@ -76,5 +76,50 @@ class TestGetData(unittest.TestCase):
         self.assertEqual(len(rows), 4)
 
 
+class TestGetFireGdpYearData(unittest.TestCase):
+
+    def test_matching_years(self):
+        co2_file = os.path.join(
+            os.path.dirname(__file__),
+            "../data/test_co2.csv"
+        )
+        gdp_file = os.path.join(
+            os.path.dirname(__file__),
+            "../data/test_gdp.csv"
+        )
+
+        result = fire_gdp.get_fire_gdp_year_data(
+            co2_file,
+            gdp_file,
+            "Brazil"
+        )
+
+        expected = [
+            [2004, 14437.5351, 1957751.20],
+            [2005, 18253.5232, 2170584.50],
+            [2006, 8342.4547, 2409449.90]
+        ]
+
+        self.assertEqual(result, expected)
+
+    def test_missing_values_are_skipped(self):
+        co2_file = os.path.join(
+            os.path.dirname(__file__),
+            "../data/test_co2.csv"
+        )
+        gdp_file = os.path.join(
+            os.path.dirname(__file__),
+            "../data/test_gdp.csv"
+        )
+
+        result = fire_gdp.get_fire_gdp_year_data(
+            co2_file,
+            gdp_file,
+            "Afghanistan"
+        )
+
+        self.assertEqual(result, [])
+
+
 if __name__ == "__main__":
     unittest.main()
