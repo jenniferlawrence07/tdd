@@ -1,1 +1,8 @@
 /data/
+
+# Snakemake metadata and logs
+.snakemake/
+
+# Python cache files
+__pycache__/
+*.pyc
